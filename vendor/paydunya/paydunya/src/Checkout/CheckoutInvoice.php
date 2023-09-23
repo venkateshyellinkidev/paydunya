@@ -177,13 +177,16 @@ class CheckoutInvoice extends Checkout
 
         $result = Utilities::httpGetRequest(Setup::getCheckoutConfirmUrl().$token);
 
-        print_r($result);exit;  
 
-
+        print_r($result);exit;
+        // exit;
+        
 
         if (count($result) > 0) {
             switch ($result['status']) {
                 case 'completed':
+
+                    // print_r($result[''])
                     $this->status = $result['status'];
                     $this->pushCustomData($result["custom_data"]);
                     $this->pushItems($result["invoice"]['items']);
@@ -191,6 +194,7 @@ class CheckoutInvoice extends Checkout
                     $this->customer = $result['customer'];
                     $this->setTotalAmount($result['invoice']['total_amount']);
                     $this->receipt_url = $result['receipt_url'];
+                    $this->cancel_url =$result['actions']['cancel_url']; //adding cancel url
                     return true;
                 break;
                 default:
@@ -245,6 +249,8 @@ class CheckoutInvoice extends Checkout
                 $this->response_code = $result["response_code"];
                 $this->response_text = $result["description"];
                 $this->invoice_url = $result["response_text"];
+
+             
                 return true;
             break;
             default:

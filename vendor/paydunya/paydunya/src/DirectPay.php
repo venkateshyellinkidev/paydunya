@@ -13,6 +13,8 @@ class DirectPay extends Checkout
 
         $result = Utilities::httpJsonRequest(Setup::getDirectPayCreditUrl(), $payload);
 
+        // print_r($result);exit;
+
 
         if (count($result) > 0) {
             switch ($result['response_code']) {

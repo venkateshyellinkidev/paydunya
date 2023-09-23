@@ -15,6 +15,10 @@ $token = $_GET['token'];
 $invoice = new \Paydunya\Checkout\CheckoutInvoice();
 if ($invoice->confirm($token)) {
 
+
+
+  // print_r($invoice);exit;
+
   //Retrieve payment status
   // The payment status can be either completed, pending, cancelled
   echo $invoice->getStatus();
@@ -45,6 +49,9 @@ if ($invoice->confirm($token)) {
   echo $invoice->getTotalAmount();
 
 }else{
+
+  print_r($invoice);exit;
+ 
   echo $invoice->getStatus();
   echo $invoice->response_text;
   echo $invoice->response_code;

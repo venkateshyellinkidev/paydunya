@@ -2,11 +2,38 @@
 ini_set('display_errors',1);
 require('vendor/autoload.php');
 
-\Paydunya\Setup::setMasterKey("w45AVPgF-JqMA-W45K-gGJm-XorU2n7bh8rU");
-\Paydunya\Setup::setPublicKey("test_public_B2yRErL9pE3tJUHO2dikzi6OJrM");
-\Paydunya\Setup::setPrivateKey("test_private_Lr86fcstnnw99fzsyPolvviBYfP");
-\Paydunya\Setup::setToken("QUq2D7Ot9RW173IWXATM");
+$PATH = __DIR__.'/';
+$dotenv = Dotenv\Dotenv::createImmutable($PATH); // Replace __DIR__ with the path to your .env file if it's located elsewhere
+
+$dotenv->load();
+
+$MASTERKEY = $_ENV['MASTERKEY'];
+
+$TEST_PUBLICKEY = $_ENV['TEST_PUBLICKEY'];
+$TEST_PRIVATEKEY = $_ENV['TEST_PRIVATEKEY'];
+$TEST_TOKEN = $_ENV['TEST_TOKEN'];
+
+$LIVE_PUBLICKEY = $_ENV['LIVE_PUBLICKEY'];
+$LIVE_PRIVATEKEY = $_ENV['LIVE_PRIVATEKEY'];
+$LIVE_TOKEN = $_ENV['LIVE_TOKEN'];
+
+\Paydunya\Setup::setMasterKey($MASTERKEY);
+\Paydunya\Setup::setPublicKey($TEST_PUBLICKEY);
+\Paydunya\Setup::setPrivateKey($TEST_PRIVATEKEY);
+\Paydunya\Setup::setToken($TEST_TOKEN);
 \Paydunya\Setup::setMode("test"); // Optionnel en mode test. Utilisez cette option pour les paiements tests.
+
+
+
+// production keys
+
+
+// \Paydunya\Setup::setMasterKey($MASTERKEY);
+// \Paydunya\Setup::setPublicKey($LIVE_PUBLICKEY);
+// \Paydunya\Setup::setPrivateKey($LIVE_PRIVATEKEY);
+// \Paydunya\Setup::setToken($LIVE_TOKEN);
+// \Paydunya\Setup::setMode("live"); // Optional. Use this option for test payments.
+
 
 
 //Configuration des informations de votre service/entreprise
@@ -23,16 +50,26 @@ require('vendor/autoload.php');
 \Paydunya\Checkout\Store::setReturnUrl("http://localhost/test_paydunya/success.php");
 
 $invoice = new \Paydunya\Checkout\CheckoutInvoice();
-$invoice->addItem("Chaussures Croco", 3, 10000, 30000, "Chaussures faites en peau de crocrodile authentique qui chasse la pauvreté");
-$invoice->addItem("Chemise Glacée", 1, 5000, 5000);
+$invoice->addItem("Chaussures Croco", 1, 300, 300, "Chaussures faites en peau de crocrodile authentique qui chasse la pauvreté");
+// $invoice->addItem("Chemise Glacée", 1, 5000, 5000);
 
 $invoice->setDescription("Optional Description");
-$invoice->setTotalAmount(200);
+$invoice->setTotalAmount(300);
+// $invoice->addChannel('card'); // select single payment 
+
+// $invoice->addChannels(['card', 'orange-money-senegal']); // select multiple payment methods
+// $direct_pay = new Paydunya_DirectPay();
+
 
 if($invoice->create()) {
+
+    // print_r($invoice->create());exit;
     header("Location: ".$invoice->getInvoiceUrl());
 }else{
     echo $invoice->response_text;
 }
+
+
+
 
 ?>

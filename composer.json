@@ -1,5 +1,6 @@
 {
     "require": {
-        "paydunya/paydunya": "^1.0"
+        "paydunya/paydunya": "^1.0",
+        "vlucas/phpdotenv": "^5.5"
     }
 }

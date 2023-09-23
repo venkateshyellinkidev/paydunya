@@ -94,6 +94,8 @@ class Setup extends Paydunya
         if (self::getMode() == "live") {
             return self::ROOT_URL_BASE . self::LIVE_CHECKOUT_INVOICE_BASE_URL;
         } else {
+
+            // echo self::ROOT_URL_BASE . self::TEST_CHECKOUT_INVOICE_BASE_URL;exit;
             return self::ROOT_URL_BASE . self::TEST_CHECKOUT_INVOICE_BASE_URL;
         }
     }
